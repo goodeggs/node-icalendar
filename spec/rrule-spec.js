@@ -122,6 +122,16 @@ describe("RRule", function() {
                     .toEqual(new Date(2012,5,3,2,0,0));
         });
 
+        it("handles monthly recurrence of a specific type", function() {
+            var start = new Date(2012,5,1,16,0,0);
+            var rrule = new RRule(RRule.parse('FREQ=MONTHLY;BYDAY=1FR'), start);
+            // This test is timezone sensitive, and is currently written to fail when run under pacific
+            var after = new Date(process.env.TZ == 'UTC' ? "Fri, 29 Jun 2012 01:31:40 GMT" : "Thu, 28 Jun 2012 20:31:40 GMT");
+
+            expect(rrule.next(after))
+                    .toEqual(new Date(2012,6,6,16,0,0));
+        });
+
         it("handles monthly recurrences with a time value", function() {
             var rrule = new RRule(RRule.parse('FREQ=MONTHLY;BYDAY=1SU'), new Date(2011,0,1,2,30,30));
 
