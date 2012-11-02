@@ -56,6 +56,18 @@ describe("RRule", function() {
                 ]);
     });
 
+    it("respects EXDATE date_only parts around dst for pacific time", function() {
+      var rrule = new RRule('FREQ=WEEKLY;EXDATE=20121122', new Date(2012,10,1,16,30));
+
+      expect(rrule.nextOccurences(new Date(2012,10,1), 4))
+        .toEqual([
+        new Date(2012,10,1,16,30),
+        new Date(2012,10,8,16,30),
+        new Date(2012,10,15,16,30),
+        new Date(2012,10,29,16,30)
+      ]);
+    });
+
     it("respects EXDATE full date parts", function() {
         var rrule = new RRule('FREQ=MONTHLY;EXDATE=20110201,20110301T100000,20110401T120000', new Date(2011,0,1,10));
 
